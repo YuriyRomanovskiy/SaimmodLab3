@@ -1,0 +1,10 @@
+C:\Users\brand\source\repos\saimmod3\saimmod3\bin\Debug\saimmod3.exe.config
+C:\Users\brand\source\repos\saimmod3\saimmod3\bin\Debug\saimmod3.exe
+C:\Users\brand\source\repos\saimmod3\saimmod3\bin\Debug\saimmod3.pdb
+C:\Users\brand\source\repos\saimmod3\saimmod3\obj\Debug\saimmod3.csprojAssemblyReference.cache
+C:\Users\brand\source\repos\saimmod3\saimmod3\obj\Debug\saimmod3.Form1.resources
+C:\Users\brand\source\repos\saimmod3\saimmod3\obj\Debug\saimmod3.Properties.Resources.resources
+C:\Users\brand\source\repos\saimmod3\saimmod3\obj\Debug\saimmod3.csproj.GenerateResource.cache
+C:\Users\brand\source\repos\saimmod3\saimmod3\obj\Debug\saimmod3.csproj.CoreCompileInputs.cache
+C:\Users\brand\source\repos\saimmod3\saimmod3\obj\Debug\saimmod3.exe
+C:\Users\brand\source\repos\saimmod3\saimmod3\obj\Debug\saimmod3.pdb
