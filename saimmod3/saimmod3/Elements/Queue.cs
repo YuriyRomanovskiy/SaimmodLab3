@@ -11,6 +11,15 @@ namespace saimmod3.Elements
         int capacity = 0;
         int currentCapacity = 0;
 
+        public int CurrentCapacity
+        {
+            get
+            {
+                return currentCapacity;
+            }
+        }
+
+
         //bool isBusy = false;
 
 

@@ -13,6 +13,7 @@ namespace saimmod3.Elements
         //bool isBusy = false;
         bool canBlock = false;
         bool isBLocked = false;
+        Random rand;
 
         #region Properties
 
@@ -64,6 +65,7 @@ namespace saimmod3.Elements
             this.probability = probability;
             this.canBlock = canBlock;
             Element.OnVocationCreated += Element_OnVocationCreated;
+            rand = new Random();
 
         }
 
@@ -87,10 +89,13 @@ namespace saimmod3.Elements
 
         bool IsVocationProcessed()
         {
-            Random rand = new Random();
+           
             bool result = false;
 
-            if (rand.NextDouble() < Convert.ToDouble(1f - probability))
+            double randomValue = rand.NextDouble();
+            //Debug.WriteLine(probability);
+
+            if ((Convert.ToSingle(rand.Next(100)) / 100f)  < Convert.ToDouble(1f - probability))
             {
                 result = true;
             }
@@ -123,34 +128,35 @@ namespace saimmod3.Elements
                     return;
 
                 }
+
+                if (!isBLocked)
                 {
-                    isBLocked = false;
-                }
 
 
-                if (IsVocationProcessed())
-                {
-                    if (!isFreeNextElement)
+                    if (IsVocationProcessed())
                     {
-                        isBLocked = true;
+                        if (!isFreeNextElement)
+                        {
+                            isBLocked = true;
+                        }
+                        else
+                        {
+                            isBusy = false;
+                            if (OnVocationCreated != null)
+                            {
+                                OnVocationCreated(this, reciever);
+                            }
+                        }
+
                     }
                     else
                     {
-                        isBusy = false;
-                        if (OnVocationCreated != null)
+                        //block sender
+                        //Debug.WriteLine("bloc Proc ");
+                        if (sender != null && OnBlockPrevious != null)
                         {
-                            OnVocationCreated(this, reciever);
+                            OnBlockPrevious(this, sender);
                         }
-                    }
-                    
-                }
-                else
-                {
-                    //block sender
-                    //Debug.WriteLine("bloc Proc ");
-                    if (sender != null && OnBlockPrevious != null)
-                    {
-                        OnBlockPrevious(this, sender);
                     }
                 }
 

@@ -15,11 +15,11 @@ namespace saimmod3
     public partial class Form1 : Form
     {
         Generator generator = new Generator(1, true);
-        Processor processor1 = new Processor(0.2f, true);
+        Processor processor1 = new Processor(0.0f, true);
         Queue queue = new Queue(1);
-        Processor processor2 = new Processor(0.8f, true);
+        Processor processor2 = new Processor(0.0f, true);
 
-        Manager mng = new Manager(100);
+        Manager mng = new Manager(100000);
 
         public Form1()
         {
@@ -38,15 +38,16 @@ namespace saimmod3
             //processor1.ProcessTick(!queue.IsBusy);
             //generator.ProcessTick(!processor1.IsBusy);
 
-          mng.ProcessManyTicks();
-
+            mng.ProcessManyTicks();
+            richTextBox1.Text = mng.PrintAll();
             //Debug.WriteLine(generator.State + processor1.State + queue.State + processor2.State);
             //Debug.WriteLine("----");
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            mng.PrintAll();
+            mng.Clear();
+            richTextBox1.Text = "";
         }
     }
 }

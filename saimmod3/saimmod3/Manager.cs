@@ -16,14 +16,16 @@ namespace saimmod3
         Dictionary<string, int> statesCount = new Dictionary<string, int>();
 
         Generator generator = new Generator(1, true);
-        Processor processor1 = new Processor(0.2f, true);
+        Processor processor1 = new Processor(.4f, true);
         Queue queue = new Queue(1);
-        Processor processor2 = new Processor(0.8f, true);
+        Processor processor2 = new Processor(.5f, true);
 
         StringBuilder sb = new StringBuilder();
         int stateCount = 0;
         string state;
         int iterationsCOunt = 0;
+
+        int generalQueueLemght = 0;
 
         string State
         {
@@ -66,20 +68,17 @@ namespace saimmod3
         
         public void ProcessTick()
         {
-            //elements.ForEach(item => item.ProcessTick(true));
+            elements.ForEach(item => item.ProcessTick(true));
 
 
-            processor2.ProcessTick(true);
-            queue.ProcessTick(!processor2.IsBusy);
-            processor1.ProcessTick(!queue.IsBusy);
-            generator.ProcessTick(!processor1.IsBusy);
+            //processor2.ProcessTick(true);
+            //queue.ProcessTick(!processor2.IsBusy);
+            //processor1.ProcessTick(!queue.IsBusy);
+            //generator.ProcessTick(!processor1.IsBusy);
 
-            Debug.WriteLine(State);
-
-            for (int j = 0; j < 10000000; j++)
-            {
-
-            }
+            ///Debug.WriteLine(State);
+            ///
+            generalQueueLemght += queue.CurrentCapacity;
 
             state = State;
             if (statesCount.TryGetValue(state, out stateCount))
@@ -107,12 +106,28 @@ namespace saimmod3
         }
 
 
-        public void PrintAll()
+        public string PrintAll()
         {
+            string result = "";
+            float sum = 0f;
             foreach(var item in statesCount)
             {
-                Debug.WriteLine(item.Key + " " + item.Value + " " + (float)item.Value / iterationsCOunt);
+                result += item.Key + " " + ((float)item.Value / iterationsCOunt).ToString() + "\n";
+                sum += ((float)item.Value / iterationsCOunt);
             }
+            result += sum.ToString() + "\n";
+            result += (float)generalQueueLemght / (float)iterationsCOunt;
+
+
+
+            return result;
+        }
+
+
+        public void Clear()
+        {
+            Initialize();
+            statesCount.Clear();
         }
     }
 }
