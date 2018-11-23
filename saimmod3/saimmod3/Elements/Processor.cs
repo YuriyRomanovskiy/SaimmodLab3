@@ -10,7 +10,6 @@ namespace saimmod3.Elements
     class Processor: Element
     {
         float probability = 0f;
-        //bool isBusy = false;
         bool canBlock = false;
         bool isBLocked = false;
         Random rand;
@@ -30,6 +29,7 @@ namespace saimmod3.Elements
                 return result;
             }
         }
+
 
         public float Probability
         {
@@ -66,7 +66,6 @@ namespace saimmod3.Elements
             this.canBlock = canBlock;
             Element.OnVocationCreated += Element_OnVocationCreated;
             rand = new Random();
-
         }
 
 
@@ -93,7 +92,6 @@ namespace saimmod3.Elements
             bool result = false;
 
             double randomValue = rand.NextDouble();
-            //Debug.WriteLine(probability);
 
             if ((Convert.ToSingle(rand.Next(100)) / 100f)  < Convert.ToDouble(1f - probability))
             {
@@ -120,10 +118,9 @@ namespace saimmod3.Elements
                 {
                     isBLocked = false;
                     isBusy = false;
-                    if (OnVocationCreated != null)
-                    {
-                        OnVocationCreated(this, reciever);
-                    }
+
+                    OnVocationCreated?.Invoke(this, reciever);
+
                     IsProcessed = true;
                     return;
 
@@ -131,8 +128,6 @@ namespace saimmod3.Elements
 
                 if (!isBLocked)
                 {
-
-
                     if (IsVocationProcessed())
                     {
                         if (!isFreeNextElement)
@@ -142,17 +137,17 @@ namespace saimmod3.Elements
                         else
                         {
                             isBusy = false;
-                            if (OnVocationCreated != null)
+
+                            OnVocationCreated?.Invoke(this, reciever);
+
+                            if (counter != null)
                             {
-                                OnVocationCreated(this, reciever);
+                                counter.Increment();
                             }
                         }
-
                     }
                     else
                     {
-                        //block sender
-                        //Debug.WriteLine("bloc Proc ");
                         if (sender != null && OnBlockPrevious != null)
                         {
                             OnBlockPrevious(this, sender);
@@ -181,13 +176,6 @@ namespace saimmod3.Elements
                     Debug.WriteLine("ssssssss");
                 }
                 isBusy = true;
-
-                //Debug.WriteLine("PROCESS RECIEVING");
-
-                
-
-                //Debug.WriteLine(" Proc state " + State);
-
             }
         }
 

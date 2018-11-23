@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using saimmod3.Elements.Helper;
+
 
 namespace saimmod3.Elements
 {
@@ -14,8 +16,18 @@ namespace saimmod3.Elements
 
         protected Element sender;
         protected Element reciever;
+        protected TraficCounter counter;
 
         protected bool isBusy = false;
+
+
+        public virtual TraficCounter TraficCounter
+        {
+            get
+            {
+                return counter;
+            }
+        }
 
 
         public virtual bool IsBusy
@@ -48,11 +60,12 @@ namespace saimmod3.Elements
         }
 
 
-        public virtual void Init(Element sender, Element reciever)
+        public virtual void Init(Element sender, Element reciever, TraficCounter counter = null)
         {
             IsProcessed = false;
             this.sender = sender;
             this.reciever = reciever;
+            this.counter = counter;
         }
     }
 }
