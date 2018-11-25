@@ -121,6 +121,8 @@ namespace saimmod3.Elements
 
                     OnVocationCreated?.Invoke(this, reciever);
 
+
+
                     IsProcessed = true;
                     return;
 
@@ -139,7 +141,6 @@ namespace saimmod3.Elements
                             isBusy = false;
 
                             OnVocationCreated?.Invoke(this, reciever);
-
                             if (counter != null)
                             {
                                 counter.Increment();

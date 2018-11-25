@@ -12,7 +12,7 @@ namespace saimmod3
     class Manager
     {
         List<Element> elements = new List<Element>();
-#warning shit
+
         List<Element> elementsInverse = new List<Element>();
         Dictionary<string, int> statesCount = new Dictionary<string, int>();
 
@@ -30,7 +30,7 @@ namespace saimmod3
         int generalVocationsCount = 0;
         int generalQueueLemght = 0;
 
-        string State
+        public string State
         {
             get
             {
@@ -40,30 +40,30 @@ namespace saimmod3
         }
 
 
-        public string MeanQueueLength
+        public float MeanQueueLength
         {
             get
             {
-                return ((float)generalQueueLemght / iterationsCOunt).ToString();
+                return ((float)generalQueueLemght / iterationsCOunt);
             }
         }
 
 
 
-        public string MeanVocationsCount
+        public float MeanVocationsCount
         {
             get
             {
-                return ((float)generalVocationsCount / iterationsCOunt).ToString();
+                return ((float)generalVocationsCount / iterationsCOunt);
             }
         }
 
 
-        public string MeanTrafic
+        public float MeanTrafic
         {
             get
             {
-                return ((float)elements[0].TraficCounter?.VocationsCount / iterationsCOunt).ToString();
+                return ((float)elements[0].TraficCounter?.VocationsCount / iterationsCOunt);
             }
         }
 
@@ -77,10 +77,10 @@ namespace saimmod3
             queue = new Queue(1);
             processor2 = new Processor(probability2, true);
 
-            generator.Init(null, processor1);
-            processor1.Init(generator, queue);
-            queue.Init(processor1, processor2);
-            processor2.Init(queue, null, traficCounter);
+            generator.Init(null, processor1, manager:this);
+            processor1.Init(generator, queue, manager: this);
+            queue.Init(processor1, processor2, null, manager: this);
+            processor2.Init(queue, null, traficCounter, manager: this);
 
             elements.Add(processor2);
             elements.Add(queue);
@@ -117,9 +117,10 @@ namespace saimmod3
             ///Debug.WriteLine(State);
             ///
             generalQueueLemght += queue.CurrentCapacity;
-            generalVocationsCount += (processor1.State == "1") ? 1 : 0;
-            generalVocationsCount += ( processor2.State == "1") ? 1 : 0;
-            //generalVocationsCount += queue.CurrentCapacity;
+
+            generalVocationsCount += ((processor1.State == "x") || (processor1.State == "1")) ? 1 : 0;
+            generalVocationsCount += ((processor2.State == "x") || (processor2.State == "1")) ? 1 : 0;
+            generalVocationsCount += queue.CurrentCapacity;
 
             state = State;
             if (statesCount.TryGetValue(state, out stateCount))
@@ -154,11 +155,11 @@ namespace saimmod3
                 result += item.Key + " " + ((float)item.Value / iterationsCOunt).ToString() + "\n";
                 sum += ((float)item.Value / iterationsCOunt);
             }
-            result += sum.ToString() + "\n-------";
-            result += MeanQueueLength + "\n";
-            result += MeanVocationsCount + "\n";
-            result += MeanTrafic + "\n";
-
+            result += sum.ToString() + "\n-------\n";
+            result += "Loch "+ MeanQueueLength.ToString() + "\n";
+            result += "Ls " + MeanVocationsCount.ToString() + "\n";
+            result += "A " + MeanTrafic.ToString() + "\n";
+            result += "W " +(MeanVocationsCount / MeanTrafic ).ToString();
 
 
             return result;

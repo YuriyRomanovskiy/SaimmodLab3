@@ -17,6 +17,7 @@ namespace saimmod3.Elements
         protected Element sender;
         protected Element reciever;
         protected TraficCounter counter;
+        protected Manager manager;
 
         protected bool isBusy = false;
 
@@ -60,12 +61,13 @@ namespace saimmod3.Elements
         }
 
 
-        public virtual void Init(Element sender, Element reciever, TraficCounter counter = null)
+        public virtual void Init(Element sender, Element reciever, TraficCounter counter = null, Manager manager = null)
         {
             IsProcessed = false;
             this.sender = sender;
             this.reciever = reciever;
             this.counter = counter;
+            this.manager = manager;
         }
     }
 }

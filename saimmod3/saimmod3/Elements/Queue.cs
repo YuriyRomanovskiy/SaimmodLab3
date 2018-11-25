@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,6 +67,10 @@ namespace saimmod3.Elements
                 {
                     OnVocationCreated(this, reciever);
                 }
+                if (counter != null)
+                {
+                    counter.Increment();
+                }
 
             }
 
@@ -100,6 +105,10 @@ namespace saimmod3.Elements
                     if (OnVocationCreated != null)
                     {
                         OnVocationCreated(this, this.reciever);
+                    }
+                    if (counter != null)
+                    {
+                        counter.Increment();
                     }
                 }
 
