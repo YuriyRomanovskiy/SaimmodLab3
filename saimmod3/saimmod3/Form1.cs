@@ -28,7 +28,7 @@ namespace saimmod3
             float probability1 = GetInputDataFloat(firstProbabilitytextBox, 0.4f);
             float probability2 = GetInputDataFloat(secondProbabilitytextBox, 0.5f);
 
-            mng = new Manager(100000, probability1, probability2);
+            mng = new Manager(iterrationsCount, probability1, probability2);
             mng.ProcessManyTicks();
             richTextBox1.Text = mng.PrintAll();
         }

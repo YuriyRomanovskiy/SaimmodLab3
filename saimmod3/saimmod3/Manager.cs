@@ -14,6 +14,7 @@ namespace saimmod3
         List<Element> elements = new List<Element>();
 
         List<Element> elementsInverse = new List<Element>();
+        List<Vocation> vocations = new List<Vocation>();
         Dictionary<string, int> statesCount = new Dictionary<string, int>();
 
         TraficCounter traficCounter;// = new TraficCounter();
@@ -93,6 +94,9 @@ namespace saimmod3
             elementsInverse.Add(queue);
             elementsInverse.Add(processor2);
 
+
+            Generator.OnVocationCreated += Generator_OnVocationCreated;
+
         }
 
 
@@ -107,6 +111,11 @@ namespace saimmod3
         public void ProcessTick()
         {
             elements.ForEach(item => item.ProcessTick(true));
+
+
+            //Debug.WriteLine(State);
+            //vocations.ForEach(item => Debug.WriteLine(item.LiveTime));
+            //Debug.WriteLine("-------");
 
 
             //processor2.ProcessTick(true);
@@ -159,10 +168,22 @@ namespace saimmod3
             result += "Loch "+ MeanQueueLength.ToString() + "\n";
             result += "Ls " + MeanVocationsCount.ToString() + "\n";
             result += "A " + MeanTrafic.ToString() + "\n";
-            result += "W " +(MeanVocationsCount / MeanTrafic ).ToString();
+            result += "W " +(MeanVocationsCount / MeanTrafic ).ToString() + "\n";
+            result += W.ToString();
 
 
             return result;
+        }
+
+
+        float W
+        {
+            get
+            {
+                float sum = 0f;
+                vocations.ForEach(item => sum += item.LiveTime);
+                return sum / vocations.Count;
+            }
         }
 
 
@@ -170,6 +191,16 @@ namespace saimmod3
         {
             Initialize();
             statesCount.Clear();
+        }
+
+
+        void Generator_OnVocationCreated(Element sender, Element rec, Vocation vocation)
+        {
+            if (sender == processor2)
+            {
+                vocations.Add(vocation);
+                //Debug.WriteLine(vocation.LiveTime);
+            }
         }
     }
 }

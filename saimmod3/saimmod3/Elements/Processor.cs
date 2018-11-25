@@ -1,4 +1,5 @@
-﻿using System;
+﻿using saimmod3.Elements.Helper;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -104,8 +105,13 @@ namespace saimmod3.Elements
 
         public override void ProcessTick(bool isFreeNextElement)
         {
+            
             base.ProcessTick(isFreeNextElement);
             isFreeNextElement = true;
+
+            
+
+            VocationLiveTimeIncrement();
 
             if (reciever != null)
             {
@@ -119,8 +125,8 @@ namespace saimmod3.Elements
                     isBLocked = false;
                     isBusy = false;
 
-                    OnVocationCreated?.Invoke(this, reciever);
-
+                    OnVocationCreated?.Invoke(this, reciever, vocation);
+                    vocation = null;
 
 
                     IsProcessed = true;
@@ -140,7 +146,9 @@ namespace saimmod3.Elements
                         {
                             isBusy = false;
 
-                            OnVocationCreated?.Invoke(this, reciever);
+                            OnVocationCreated?.Invoke(this, reciever, vocation);
+                            vocation = null;
+
                             if (counter != null)
                             {
                                 counter.Increment();
@@ -168,10 +176,20 @@ namespace saimmod3.Elements
 
         #region Events handlers
 
-        void Element_OnVocationCreated(Element sender, Element reciever)
+        void Element_OnVocationCreated(Element sender, Element reciever, Vocation vocation)
         {
             if (sender == this.sender)
             {
+
+                if (this.vocation != null)
+                {
+                    Debug.WriteLine("ssssppp");
+                }
+
+
+                this.vocation = vocation;
+
+                
                 if (isBusy)
                 {
                     Debug.WriteLine("ssssssss");

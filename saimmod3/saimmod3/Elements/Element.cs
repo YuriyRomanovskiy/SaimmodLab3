@@ -11,15 +11,25 @@ namespace saimmod3.Elements
     class Element
     {
 
-        public static Action<Element, Element> OnVocationCreated;
+        public static Action<Element, Element, Vocation> OnVocationCreated;
         public static Action<Element, Element> OnBlockPrevious;
 
         protected Element sender;
         protected Element reciever;
         protected TraficCounter counter;
-        protected Manager manager;
+        //protected Manager manager;
+        protected Vocation vocation;
 
         protected bool isBusy = false;
+
+
+        public Vocation Vocation
+        {
+            get
+            {
+                return vocation;
+            }
+        }
 
 
         public virtual TraficCounter TraficCounter
@@ -61,13 +71,22 @@ namespace saimmod3.Elements
         }
 
 
+        public virtual void VocationLiveTimeIncrement()
+        {
+            if (vocation != null)
+            {
+                vocation.Increment();
+            }
+        }
+
+
         public virtual void Init(Element sender, Element reciever, TraficCounter counter = null, Manager manager = null)
         {
             IsProcessed = false;
             this.sender = sender;
             this.reciever = reciever;
             this.counter = counter;
-            this.manager = manager;
+            //this.manager = manager;
         }
     }
 }
