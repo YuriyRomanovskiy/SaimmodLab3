@@ -168,8 +168,8 @@ namespace saimmod3
             result += "Loch "+ MeanQueueLength.ToString() + "\n";
             result += "Ls " + MeanVocationsCount.ToString() + "\n";
             result += "A " + MeanTrafic.ToString() + "\n";
-            result += "W " +(MeanVocationsCount / MeanTrafic ).ToString() + "\n";
-            result += W.ToString();
+            //result += "W " +(MeanVocationsCount / MeanTrafic ).ToString() + "\n";
+            result += "W" + W.ToString();
 
 
             return result;

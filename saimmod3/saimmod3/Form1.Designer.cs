@@ -74,6 +74,7 @@
             this.firstProbabilitytextBox.Name = "firstProbabilitytextBox";
             this.firstProbabilitytextBox.Size = new System.Drawing.Size(123, 22);
             this.firstProbabilitytextBox.TabIndex = 4;
+            this.firstProbabilitytextBox.Text = "0,0";
             // 
             // secondProbabilitytextBox
             // 
@@ -81,6 +82,7 @@
             this.secondProbabilitytextBox.Name = "secondProbabilitytextBox";
             this.secondProbabilitytextBox.Size = new System.Drawing.Size(123, 22);
             this.secondProbabilitytextBox.TabIndex = 5;
+            this.secondProbabilitytextBox.Text = "0,9";
             // 
             // label1
             // 
@@ -124,6 +126,7 @@
             this.iterrationsTextBox.Name = "iterrationsTextBox";
             this.iterrationsTextBox.Size = new System.Drawing.Size(123, 22);
             this.iterrationsTextBox.TabIndex = 10;
+            this.iterrationsTextBox.Text = "1000000";
             // 
             // Form1
             // 

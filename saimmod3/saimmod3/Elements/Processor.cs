@@ -66,7 +66,7 @@ namespace saimmod3.Elements
             this.probability = probability;
             this.canBlock = canBlock;
             Element.OnVocationCreated += Element_OnVocationCreated;
-            rand = new Random();
+            rand = CustomRandom.Instance.Rand;
         }
 
 
@@ -94,7 +94,7 @@ namespace saimmod3.Elements
 
             double randomValue = rand.NextDouble();
 
-            if ((Convert.ToSingle(rand.Next(100)) / 100f)  < Convert.ToDouble(1f - probability))
+            if (Convert.ToSingle(rand.NextDouble()) <= (1f-probability))
             {
                 result = true;
             }

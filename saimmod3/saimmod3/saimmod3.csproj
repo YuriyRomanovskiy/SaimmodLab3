@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Elements\Element.cs" />
     <Compile Include="Elements\Generator.cs" />
+    <Compile Include="Elements\Helper\CustomRandom.cs" />
     <Compile Include="Elements\Helper\TraficCounter.cs" />
     <Compile Include="Elements\Helper\Vocation.cs" />
     <Compile Include="Elements\Processor.cs" />
