@@ -1,4 +1,5 @@
-﻿using System;
+﻿using saimmod3.Elements.Helper;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,7 +11,6 @@ namespace saimmod3.Elements
     class Processor: Element
     {
         float probability = 0f;
-        //bool isBusy = false;
         bool canBlock = false;
         bool isBLocked = false;
         Random rand;
@@ -30,6 +30,7 @@ namespace saimmod3.Elements
                 return result;
             }
         }
+
 
         public float Probability
         {
@@ -65,8 +66,7 @@ namespace saimmod3.Elements
             this.probability = probability;
             this.canBlock = canBlock;
             Element.OnVocationCreated += Element_OnVocationCreated;
-            rand = new Random();
-
+            rand = CustomRandom.Instance.Rand;
         }
 
 
@@ -93,9 +93,8 @@ namespace saimmod3.Elements
             bool result = false;
 
             double randomValue = rand.NextDouble();
-            //Debug.WriteLine(probability);
 
-            if ((Convert.ToSingle(rand.Next(100)) / 100f)  < Convert.ToDouble(1f - probability))
+            if (Convert.ToSingle(rand.NextDouble()) <= (1f-probability))
             {
                 result = true;
             }
@@ -106,8 +105,13 @@ namespace saimmod3.Elements
 
         public override void ProcessTick(bool isFreeNextElement)
         {
+            
             base.ProcessTick(isFreeNextElement);
             isFreeNextElement = true;
+
+            
+
+            VocationLiveTimeIncrement();
 
             if (reciever != null)
             {
@@ -120,10 +124,11 @@ namespace saimmod3.Elements
                 {
                     isBLocked = false;
                     isBusy = false;
-                    if (OnVocationCreated != null)
-                    {
-                        OnVocationCreated(this, reciever);
-                    }
+
+                    OnVocationCreated?.Invoke(this, reciever, vocation);
+                    vocation = null;
+
+
                     IsProcessed = true;
                     return;
 
@@ -131,8 +136,6 @@ namespace saimmod3.Elements
 
                 if (!isBLocked)
                 {
-
-
                     if (IsVocationProcessed())
                     {
                         if (!isFreeNextElement)
@@ -142,17 +145,18 @@ namespace saimmod3.Elements
                         else
                         {
                             isBusy = false;
-                            if (OnVocationCreated != null)
+
+                            OnVocationCreated?.Invoke(this, reciever, vocation);
+                            vocation = null;
+
+                            if (counter != null)
                             {
-                                OnVocationCreated(this, reciever);
+                                counter.Increment();
                             }
                         }
-
                     }
                     else
                     {
-                        //block sender
-                        //Debug.WriteLine("bloc Proc ");
                         if (sender != null && OnBlockPrevious != null)
                         {
                             OnBlockPrevious(this, sender);
@@ -172,22 +176,25 @@ namespace saimmod3.Elements
 
         #region Events handlers
 
-        void Element_OnVocationCreated(Element sender, Element reciever)
+        void Element_OnVocationCreated(Element sender, Element reciever, Vocation vocation)
         {
             if (sender == this.sender)
             {
+
+                if (this.vocation != null)
+                {
+                    Debug.WriteLine("ssssppp");
+                }
+
+
+                this.vocation = vocation;
+
+                
                 if (isBusy)
                 {
                     Debug.WriteLine("ssssssss");
                 }
                 isBusy = true;
-
-                //Debug.WriteLine("PROCESS RECIEVING");
-
-                
-
-                //Debug.WriteLine(" Proc state " + State);
-
             }
         }
 

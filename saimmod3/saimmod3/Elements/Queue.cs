@@ -1,5 +1,7 @@
-﻿using System;
+﻿using saimmod3.Elements.Helper;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,6 +54,8 @@ namespace saimmod3.Elements
         {
             base.ProcessTick(isFreeNextElement);
 
+            VocationLiveTimeIncrement();
+
             isFreeNextElement = true;
 
             if (reciever != null)
@@ -62,9 +66,14 @@ namespace saimmod3.Elements
             if (isFreeNextElement && currentCapacity > 0)
             {
                 currentCapacity--;
-                if (OnVocationCreated != null)
+
+                OnVocationCreated?.Invoke(this, reciever, vocation);
+                this.vocation = null;
+
+
+                if (counter != null)
                 {
-                    OnVocationCreated(this, reciever);
+                    counter.Increment();
                 }
 
             }
@@ -80,11 +89,20 @@ namespace saimmod3.Elements
         }
 
 
-        void Element_OnVocationCreated(Element sender, Element rec)
+        void Element_OnVocationCreated(Element sender, Element rec, Vocation vocation)
         {
+
+            
 
             if (sender == this.sender)
             {
+                if (this.vocation != null)
+                {
+                    Debug.WriteLine("ssssppp");
+                }
+                this.vocation = vocation;
+
+                
                 if (((Processor)this.reciever).IsBusy)
                 {
                     if (currentCapacity >= capacity)
@@ -97,9 +115,13 @@ namespace saimmod3.Elements
                 }
                 else
                 {
-                    if (OnVocationCreated != null)
+                    OnVocationCreated?.Invoke(this, this.reciever, vocation);
+
+                    this.vocation = null;
+
+                    if (counter != null)
                     {
-                        OnVocationCreated(this, this.reciever);
+                        counter.Increment();
                     }
                 }
 

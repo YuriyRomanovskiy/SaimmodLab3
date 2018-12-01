@@ -120,7 +120,7 @@ namespace saimmod3.Elements
 
         public void SendVocation()
         {
-            OnVocationCreated?.Invoke(this, reciever);
+            OnVocationCreated?.Invoke(this, reciever, new Helper.Vocation());
             currentTickCount = period;
             //Debug.WriteLine("VOCATION SEND");
         }
